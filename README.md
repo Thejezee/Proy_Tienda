@@ -23,11 +23,16 @@ Base de datos real incluida con ejemplo funcional (Coca Cola 3L, etc.).
 ```bash
 Creacion del enteorno virtual:
 python -m venv venv
-venv\Scripts\activate
+.venv\Scripts\activate
 Instalar dependencias
 pip install -r requirements.txt
-pip install Django==4.2.16
-pip install mysqlclient==2.2.4
+pip install asgiref==3.11.0
+pip install Django==4.2.10
+pip install mysqlclient==2.2.7
+pip install pillow==12.0.0
+pip install PyMySQL==1.1.2
+pip install sqlparse==0.5.4
+pip install typing_extensions==4.15.0
 Ejecutar migraciones
 python manage.py makemigrations
 python manage.py migrate
