@@ -1,0 +1,252 @@
+{% extends 'core/base.html' %}
+{% block title %}Inicio - Sistema de Inventario{% endblock %}
+
+{% block head %}
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 60px 40px;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-icon {
+        font-size: 5rem;
+        color: #667eea;
+        margin-bottom: 30px;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 15px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: #6b7280;
+        margin-bottom: 15px;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+        color: #9ca3af;
+        margin-bottom: 40px;
+        max-width: 500px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-hero {
+        padding: 14px 32px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+    }
+
+    .btn-primary-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .btn-primary-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary-hero {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+    }
+
+    .btn-secondary-hero:hover {
+        background: #f9fafb;
+        transform: translateY(-3px);
+    }
+
+    .features-section {
+        background: white;
+        margin-top: 60px;
+        padding: 60px 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .features-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 30px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(102, 126, 234, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 20px;
+    }
+
+    .feature-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 12px;
+    }
+
+    .feature-description {
+        font-size: 0.95rem;
+        color: #6b7280;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 20px;
+            min-height: auto;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .features-section {
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-icon">
+        <i class="bi bi-shop"></i>
+    </div>
+    <h1 class="hero-title">Sistema de Gestión de Inventario</h1>
+    <p class="hero-subtitle">Bienvenido</p>
+    <p class="hero-description">
+        Administra tu inventario de forma fácil y segura. Controla productos, usuarios y movimientos de stock en tiempo real.
+    </p>
+    <div class="hero-buttons">
+        <a href="{% url 'inventario' %}" class="btn-hero btn-primary-hero">
+            <i class="bi bi-speedometer2"></i> Ir al Inventario
+        </a>
+        <a href="/productos/" class="btn-hero btn-secondary-hero">
+            <i class="bi bi-shop"></i> Ver Catálogo
+        </a>
+    </div>
+</div>
+
+<div class="features-section">
+    <h2 class="features-title"><i class="bi bi-lightning"></i> Características Principales</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-box-seam"></i>
+            </div>
+            <h3 class="feature-title">Gestión de Productos</h3>
+            <p class="feature-description">
+                Administra tu catálogo de productos con información completa, precios y proveedores.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-speedometer2"></i>
+            </div>
+            <h3 class="feature-title">Inventario en Tiempo Real</h3>
+            <p class="feature-description">
+                Visualiza el stock disponible por ubicación y recibe alertas de bajo inventario.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-arrow-left-right"></i>
+            </div>
+            <h3 class="feature-title">Registro de Movimientos</h3>
+            <p class="feature-description">
+                Controla todas las entradas y salidas de productos con un historial completo.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <h3 class="feature-title">Gestión de Usuarios</h3>
+            <p class="feature-description">
+                Define roles y permisos para diferentes usuarios del sistema.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <h3 class="feature-title">Historial y Reportes</h3>
+            <p class="feature-description">
+                Accede a informes detallados y el historial completo de transacciones.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="feature-title">Seguridad</h3>
+            <p class="feature-description">
+                Sistema seguro con autenticación y control de acceso basado en roles.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

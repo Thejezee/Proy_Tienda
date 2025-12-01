@@ -1,0 +1,267 @@
+{% extends 'core/base.html' %}
+{% block head %}
+<style>
+    .kpi-section {
+        margin-bottom: 40px;
+    }
+    .kpi-card {
+        border-radius: 18px;
+        box-shadow: 0 6px 24px rgba(102,126,234,0.10);
+        padding: 28px 24px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9e4f0 100%);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 0;
+        min-height: 120px;
+    }
+    .kpi-card .kpi-icon {
+        font-size: 2.5rem;
+        color: #667eea;
+        opacity: 0.7;
+        margin-right: 10px;
+    }
+    .kpi-card .kpi-label {
+        font-size: 0.95rem;
+        color: #6b7280;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+    .kpi-card .kpi-value {
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: #1f2937;
+    }
+    .kpi-card.bg-warning .kpi-icon { color: #f59e42; }
+    .kpi-card.bg-success .kpi-icon { color: #22c55e; }
+    .kpi-card.bg-dark .kpi-icon { color: #6b7280; }
+    .kpi-card.bg-primary .kpi-icon { color: #667eea; }
+
+    .inventario-section {
+        display: flex;
+        gap: 32px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+    .inventario-graph, .inventario-table {
+        flex: 1 1 350px;
+        min-width: 340px;
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 4px 16px rgba(102,126,234,0.08);
+        padding: 32px 24px 24px 24px;
+        margin-bottom: 0;
+    }
+    .inventario-graph {
+        max-width: 420px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .inventario-table {
+        min-width: 0;
+    }
+    .inventario-table .table {
+        margin-bottom: 0;
+        background: transparent;
+    }
+    .inventario-table .table thead th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+        border: none;
+    }
+    .inventario-table .table-hover tbody tr:hover {
+        background: #f3f4f6;
+    }
+    .badge {
+        font-size: 1rem;
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-weight: 600;
+    }
+    .btn-group .btn {
+        border-radius: 8px !important;
+        margin-right: 4px;
+    }
+    .btn-group .btn:last-child {
+        margin-right: 0;
+    }
+    .action-bar {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    @media (max-width: 1200px) {
+        .inventario-section {
+            flex-direction: column;
+            gap: 24px;
+        }
+        .inventario-graph, .inventario-table {
+            max-width: 100%;
+        }
+    }
+    @media (max-width: 768px) {
+        .kpi-section {
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 18px 12px;
+        }
+        .inventario-section {
+            gap: 16px;
+        }
+        .inventario-graph, .inventario-table {
+            padding: 16px 8px;
+        }
+        .table thead th {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+</style>
+{% endblock %}
+
+{% block title %}Inventario General{% endblock %}
+
+{% block content %}
+    <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <h3 class="fw-bold text-secondary m-0">Inventario General</h3>
+        <form method="get" class="d-flex" style="max-width: 320px;">
+            <input type="text" name="q" class="form-control me-2" placeholder="Buscar producto..." value="{{ request.GET.q|default:'' }}">
+            <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-section row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="kpi-card bg-primary text-dark">
+                <span class="kpi-icon"><i class="bi bi-box-seam"></i></span>
+                <div>
+                    <div class="kpi-label">TOTAL PRODUCTOS</div>
+                    <div class="kpi-value">{{ total_productos }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="kpi-card bg-warning text-dark">
+                <span class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></span>
+                <div>
+                    <div class="kpi-label">BAJO STOCK</div>
+                    <div class="kpi-value">{{ productos_bajo_stock }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="kpi-card bg-success text-dark">
+                <span class="kpi-icon"><i class="bi bi-cash-coin"></i></span>
+                <div>
+                    <div class="kpi-label">VALOR TIENDA</div>
+                    <div class="kpi-value">Bs {{ valor_inventario }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="kpi-card bg-dark text-dark">
+                <span class="kpi-icon"><i class="bi bi-people"></i></span>
+                <div>
+                    <div class="kpi-label">USUARIOS</div>
+                    <div class="kpi-value">1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico y Tabla -->
+    <div class="inventario-section">
+        <div class="inventario-graph">
+            <div class="mb-3 fw-bold text-primary"><i class="bi bi-pie-chart-fill me-2"></i>Distribución</div>
+            <canvas id="miGrafico" style="max-height: 250px;"></canvas>
+        </div>
+        <div class="inventario-table">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fw-bold text-secondary"><i class="bi bi-table me-2"></i>Listado Detallado</span>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'registrar_movimiento' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-lg"></i> Nuevo Mov.</a>
+                    <button onclick="window.print()" class="btn btn-sm btn-secondary"><i class="bi bi-printer"></i></button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Prov.</th>
+                            <th>Precio</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-end pe-3">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in mis_productos %}
+                        <tr>
+                            <td class="fw-bold">{{ p.nombre }}</td>
+                            <td class="small text-muted">{{ p.proveedor }}</td>
+                            <td class="text-success fw-bold">Bs {{ p.precio }}</td>
+                            <td class="text-center">
+                                {% if p.total_stock < p.min_stock %}
+                                    <span class="badge bg-danger">{{ p.total_stock }}</span>
+                                {% else %}
+                                    <span class="badge bg-success bg-opacity-75 text-white">{{ p.total_stock }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end pe-3">
+                                <div class="btn-group">
+                                    <a href="{% url 'editar_producto' p.id %}" class="btn btn-sm btn-light border text-primary"><i class="bi bi-pencil"></i></a>
+                                    <a href="{% url 'eliminar_producto' p.id %}" class="btn btn-sm btn-light border text-danger"><i class="bi bi-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5" class="text-center p-4 text-muted">No se encontraron datos.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Datos Seguros para el Gráfico -->
+    {{ labels_grafico|json_script:"etiquetas-data" }}
+    {{ data_grafico|json_script:"valores-data" }}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            try {
+                const labels = JSON.parse(document.getElementById('etiquetas-data').textContent);
+                const data = JSON.parse(document.getElementById('valores-data').textContent);
+                const ctx = document.getElementById('miGrafico');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: { 
+                            labels: labels, 
+                            datasets: [{ 
+                                data: data, 
+                                backgroundColor: ['#0d6efd', '#fd7e14', '#198754', '#dc3545', '#6f42c1'], 
+                                borderWidth: 0 
+                            }] 
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } } 
+                        }
+                    });
+                }
+            } catch (e) { console.error("Error al cargar gráfico:", e); }
+        });
+    </script>
+{% endblock %}

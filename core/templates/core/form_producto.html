@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Editar Producto{% endblock %}
+{% block head %}
+<style>
+    .producto-section {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .producto-card {
+        width: 100%;
+        max-width: 520px;
+        border-radius: 18px;
+        box-shadow: 0 6px 24px rgba(102,126,234,0.10);
+        background: white;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    .producto-card .card-header {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e42 100%);
+        color: #1f2937;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-bottom: none;
+        padding: 20px 28px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .producto-card .card-body {
+        padding: 32px 28px 24px 28px;
+    }
+    .producto-card label.form-label {
+        font-weight: 600;
+        color: #667eea;
+        margin-bottom: 4px;
+    }
+    .producto-card .form-control, .producto-card select {
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        font-size: 1rem;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        background: #f9fafb;
+        transition: border-color 0.2s;
+    }
+    .producto-card .form-control:focus, .producto-card select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px #667eea22;
+    }
+    .producto-card .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 12px 0;
+        margin-bottom: 8px;
+        transition: box-shadow 0.2s;
+    }
+    .producto-card .btn-primary:hover {
+        box-shadow: 0 8px 24px rgba(102,126,234,0.18);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    .producto-card .btn-light {
+        border-radius: 8px;
+        padding: 12px 0;
+        font-weight: 600;
+    }
+    @media (max-width: 600px) {
+        .producto-card .card-header, .producto-card .card-body {
+            padding: 16px 8px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="producto-section">
+    <div class="producto-card">
+        <div class="card-header">
+            <i class="bi bi-pencil-square me-2"></i> Editar Producto
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Nombre del Producto</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">SKU / Código</label>
+                        {{ form.sku }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Proveedor</label>
+                        {{ form.proveedor }}
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Precio Venta (Bs)</label>
+                        {{ form.precio }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-danger">Stock Mínimo (Alerta)</label>
+                        {{ form.min_stock }}
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'inventario' %}" class="btn btn-light border me-md-2">Cancelar</a>
+                    <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

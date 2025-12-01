@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Historial{% endblock %}
+
+{% block content %}
+<h3 class="fw-bold text-secondary mb-4">📜 Historial de Movimientos</h3>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-striped mb-0 align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Producto</th>
+                    <th>Tipo</th>
+                    <th>Cantidad</th>
+                    <th>Motivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in movimientos %}
+                <tr>
+                    <td>{{ m.fecha|date:"d/m/Y H:i" }}</td>
+                    <td class="fw-bold">{{ m.producto }}</td>
+                    <td>
+                        {% if m.tipo == 'ENTRADA' %}
+                            <span class="badge bg-success">ENTRADA</span>
+                        {% else %}
+                            <span class="badge bg-danger">SALIDA</span>
+                        {% endif %}
+                    </td>
+                    <td class="fw-bold">{{ m.cantidad }}</td>
+                    <td class="text-muted">{{ m.motivo }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center p-4">No hay movimientos registrados.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

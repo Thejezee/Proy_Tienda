@@ -1,0 +1,104 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Eliminar Producto{% endblock %}
+{% block head %}
+<style>
+    .eliminar-section {
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .eliminar-card {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 18px;
+        box-shadow: 0 6px 24px rgba(239,68,68,0.10);
+        background: white;
+        overflow: hidden;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .eliminar-card .card-header {
+        background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-bottom: none;
+        padding: 20px 28px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+    }
+    .eliminar-card .card-body {
+        padding: 32px 28px 24px 28px;
+    }
+    .eliminar-card .icon-warning {
+        font-size: 3.5rem;
+        color: #ef4444;
+        opacity: 0.7;
+        margin-bottom: 18px;
+    }
+    .eliminar-card .btn-danger {
+        border-radius: 8px;
+        padding: 12px 0;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+        border: none;
+        transition: box-shadow 0.2s;
+    }
+    .eliminar-card .btn-danger:hover {
+        box-shadow: 0 8px 24px rgba(239,68,68,0.18);
+        background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+    }
+    .eliminar-card .btn-outline-secondary {
+        border-radius: 8px;
+        padding: 12px 0;
+        font-weight: 600;
+    }
+    .eliminar-card .card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 10px;
+    }
+    .eliminar-card .text-danger {
+        color: #ef4444 !important;
+    }
+    @media (max-width: 600px) {
+        .eliminar-card .card-header, .eliminar-card .card-body {
+            padding: 16px 8px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="eliminar-section">
+    <div class="eliminar-card">
+        <div class="card-header">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> ¿Estás seguro?
+        </div>
+        <div class="card-body">
+            <div class="icon-warning mb-3">
+                <i class="bi bi-trash"></i>
+            </div>
+            <h4 class="card-title mb-2">Eliminar Producto</h4>
+            <p class="card-text text-muted mb-1">Estás a punto de eliminar permanentemente:</p>
+            <h3 class="text-danger fw-bold mb-4">"{{ producto.nombre }}"</h3>
+            <p class="small text-muted border-top pt-3 mb-4">
+                ⚠️ Esta acción no se puede deshacer y borrará el historial de movimientos asociado a este producto.
+            </p>
+            <form method="post" class="mt-3">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger">Sí, Eliminar Definitivamente</button>
+                    <a href="{% url 'inventario' %}" class="btn btn-outline-secondary">Cancelar y Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
